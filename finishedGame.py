@@ -1,16 +1,3 @@
-# Objective 1: code userinput for stay and if player selects play the game continues.
-
-# side obj 1: make the num money lost random
-# side obj 2: make sure totalMoney is not less than 0
-# side obj 3: make sure infinite while loop is able to be used
-
-'''idea: make the user guess the number that it will roll as they're rolling the dice. If they guess the exact numbers more than 2 times, they will get a additional bonus.'''
-
-
-
-# New idea for future python video -> enhance and clean up this program in a speed time video
-
-
 import random  
 
 def rollPairDice():
@@ -49,7 +36,7 @@ def myGame(randomNum=rollPairDice(), totalPot=moneyPot(), multiplier=3, guess=-1
     print("If you don't get it right you don't get a lot of money.")
     print("Guess it right you'll get a boatload of money!")
 
-    while guess != randomNum and totalPot >= 0:
+    while guess != randomNum and totalPot > 0 and highChecker!=10:
       guessChecker = guessChecker + 1
       guessNum = int(input("What is your guess\n"))
       
@@ -57,21 +44,23 @@ def myGame(randomNum=rollPairDice(), totalPot=moneyPot(), multiplier=3, guess=-1
         lowChecker = lowChecker + 1
         totalPot = totalPot - moneyLost()
         
-        print("Your guess is too low.", "you guessed:", lowChecker, "times.")
-        print("you guessed wrong you now have $", totalPot)
-      
+        if totalPot > 0:
+          print("Your guess is too low.", "you guessed:", lowChecker, "times.")
+          print("you guessed wrong you now have $", totalPot)
+        else:
+          print("You lost all your money!")
+          break
+
       elif guessNum > randomNum:
         highChecker = highChecker + 1
         totalPot = totalPot - moneyLost()
         
-        if highChecker >= 10:
-          
-          print("Sorry you lost by making too many high guesses.\nThe correct number was", randomNum, end=".")
-          print("you guessed wrong you now have $", totalPot)
-          break
-        
-        print("Your guess is too high. You have made", highChecker, "guesses that were too high.")
-      
+        if totalPot > 0:
+            print("Your guess is too high. You have made", highChecker, "guesses that were too high.")
+            print("you guessed wrong you now have $", totalPot)
+            if highChecker >= 10:
+              print("Sorry you lost by making too many high guesses.\nThe correct number was", randomNum, end=".")
+
       elif guessNum == randomNum:
         totalPot = totalPot * multiplier
         
